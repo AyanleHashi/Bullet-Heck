@@ -88,10 +88,10 @@ public class BulletHeck {
     
     public static void checkDeath(Player character) {
         for (int i=0;i<l.size();i++) {
-            /*if (l.get(i).get(0)-2 < character.coordinates[0] && 
+            if (l.get(i).get(0)-2 < character.coordinates[0] && 
             character.coordinates[0] < l.get(i).get(0) + 2 &&
             l.get(i).get(1)-2 < character.coordinates[1] && 
-            character.coordinates[1] < l.get(i).get(1) + 2) System.exit(0);*/
+            character.coordinates[1] < l.get(i).get(1) + 2) System.exit(0);
         }
     }
     
@@ -106,7 +106,7 @@ public class BulletHeck {
             character.update();
             drawBullets();
             drawGold(character);
-            checkDeath(character);
+            //checkDeath(character);
             StdDraw.text(-95,90,Integer.toString(score));
             
             StdDraw.show();
