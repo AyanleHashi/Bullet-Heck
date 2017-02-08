@@ -13,10 +13,10 @@ class Player {
         if (StdDraw.isKeyPressed(KeyEvent.VK_UP)) coordinates[1] += playerVelocity;
         if (StdDraw.isKeyPressed(KeyEvent.VK_DOWN)) coordinates[1] -= playerVelocity;
         
-        if (coordinates[0] >= 97.5) coordinates[0] = 97.5;
-        if (coordinates[0] <= -97.5) coordinates[0] = -97.5;
-        if (coordinates[1] >= 97.5) coordinates[1] = 97.5;
-        if (coordinates[1] <= -97.5) coordinates[1] = -97.5;
+        if (coordinates[0] >= 92.5) coordinates[0] = 92.5;
+        if (coordinates[0] <= -92.5) coordinates[0] = -92.5;
+        if (coordinates[1] >= 92.5) coordinates[1] = 92.5;
+        if (coordinates[1] <= -92.5) coordinates[1] = -92.5;
     }
     
     public static void update() {
@@ -29,10 +29,11 @@ class Player {
 public class BulletHeck {
     
     public static ArrayList<List<Double>> l = new ArrayList<List<Double>>();
-    public static double[] possibleDirections = {0.25,0.5,0.25,0.5};
+    public static double[] possibleDirections = {0.4,0.6,0.4,0.6};
     public static Random rand = new Random();
     public static int[] goldCoords = {rand.nextInt(200)-100,rand.nextInt(200-100)};
     public static int score = 0;
+    public static int leniencyValue = 5;
     
     public static void initialize() {
         StdDraw.enableDoubleBuffering();
@@ -42,17 +43,26 @@ public class BulletHeck {
         StdDraw.setFont(font);
     }
     
+    public static void drawBorder() {
+        StdDraw.setPenColor(StdDraw.WHITE);
+        StdDraw.filledRectangle(-100,0,5,100);
+        StdDraw.filledRectangle(100,0,5,100);
+        StdDraw.filledRectangle(0,-100,100,5);
+        StdDraw.filledRectangle(0,100,100,5);
+    }
+    
     public static void createBullets() {
         ArrayList<Double> b;
         double velocity = 0.5;
         double count = 100.0;
+        int displayX = rand.nextInt();
         
         for (double i=0.0;i<count;i++) {
             b = new ArrayList<Double>();
-            b.add(i*2);
-            b.add(i);
-            b.add(0.5 * possibleDirections[(int)i%4]);
-            b.add(-0.5 * possibleDirections[(int)i%4]);
+            b.add(100*Math.sin(i));
+            b.add(100*Math.cos(i));
+            b.add(0.25 * possibleDirections[(int)i%4]);
+            b.add(-0.25 * possibleDirections[(int)i%4]);
             l.add(b);
         }
     }
@@ -62,11 +72,11 @@ public class BulletHeck {
             l.get(i).set(0,l.get(i).get(0) + l.get(i).get(2));
             l.get(i).set(1,l.get(i).get(1) + l.get(i).get(3));
             
-            if (l.get(i).get(0) > 105) l.get(i).set(2,-l.get(i).get(2));
-            if (l.get(i).get(1) > 105) l.get(i).set(3,-l.get(i).get(3));
+            if (l.get(i).get(0) > 100) l.get(i).set(2,-l.get(i).get(2));
+            if (l.get(i).get(1) > 100) l.get(i).set(3,-l.get(i).get(3));
             
-            if (l.get(i).get(0) < -105) l.get(i).set(2,-l.get(i).get(2));
-            if (l.get(i).get(1) < -105) l.get(i).set(3,-l.get(i).get(3));
+            if (l.get(i).get(0) < -100) l.get(i).set(2,-l.get(i).get(2));
+            if (l.get(i).get(1) < -100) l.get(i).set(3,-l.get(i).get(3));
             
             StdDraw.setPenColor(StdDraw.WHITE);
             StdDraw.point(l.get(i).get(0),l.get(i).get(1));
@@ -88,10 +98,10 @@ public class BulletHeck {
     
     public static void checkDeath(Player character) {
         for (int i=0;i<l.size();i++) {
-            if (l.get(i).get(0)-2 < character.coordinates[0] && 
-            character.coordinates[0] < l.get(i).get(0) + 2 &&
-            l.get(i).get(1)-2 < character.coordinates[1] && 
-            character.coordinates[1] < l.get(i).get(1) + 2) System.exit(0);
+            if (l.get(i).get(0)-leniencyValue < character.coordinates[0] && 
+            character.coordinates[0] < l.get(i).get(0) + leniencyValue &&
+            l.get(i).get(1)-leniencyValue < character.coordinates[1] && 
+            character.coordinates[1] < l.get(i).get(1) + leniencyValue) System.exit(0);
         }
     }
     
@@ -104,10 +114,11 @@ public class BulletHeck {
         while (true) {
             StdDraw.clear(StdDraw.BLACK);
             character.update();
+            drawBorder();
             drawBullets();
             drawGold(character);
-            //checkDeath(character);
-            StdDraw.text(-95,90,Integer.toString(score));
+            checkDeath(character);
+            StdDraw.text(-90,85,Integer.toString(score));
             
             StdDraw.show();
         }
