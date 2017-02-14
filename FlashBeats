@@ -1,0 +1,51 @@
+import java.util.*;
+import java.awt.event.KeyEvent;
+
+public class FlashBeats {
+    
+    public static ArrayList<List<Double>> lights = new ArrayList<List<Double>>();
+    public static Random random = new Random();
+    public static double[] lightChoices = {-100,100};
+
+    public static void initialize() {
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setScale(-100,100);
+        StdDraw.setPenRadius(0.05);
+        StdDraw.setPenColor(255,255,255);
+    }
+    
+    public static void drawRows() {
+        for (int i=-50;i<100;i+=50) {
+            StdDraw.filledRectangle(i,0,10,98);
+        }
+    }
+    
+    public static void createLights() {
+        ArrayList<Double> inner = new ArrayList<Double>();
+        inner.add(lightChoices[random.nextInt(2)]);
+        inner.add((double) random.nextInt(3)+1);
+        lights.add(inner);
+    }
+    
+    public static void drawLights() {
+        for (List light: lights) {
+            System.out.println(light);
+            StdDraw.setPenColor(StdDraw.RED);
+        }
+    }
+    
+    public static void main(String[] args) {
+        initialize();
+        for (int i=0;i<5;i++) {
+            createLights();
+        }
+        drawLights();
+        while (true) {
+            StdDraw.clear(StdDraw.BLACK);
+            
+            drawRows();
+            
+            StdDraw.show();
+        }
+    }
+}
