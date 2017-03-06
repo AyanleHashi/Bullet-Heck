@@ -3,7 +3,7 @@ import java.awt.event.KeyEvent;
 import java.awt.Font;
 import java.awt.Color;
 
-public class Shooter {
+public class Game {
     public static ArrayList<BasicEnemy> basicEnemies = new ArrayList<BasicEnemy>();
     public static Player player = new Player();
     public static Rooms rooms = new Rooms(player);
