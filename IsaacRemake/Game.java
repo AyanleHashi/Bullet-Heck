@@ -4,7 +4,7 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class Game {
-    //TODO: Display health, enemy collision, rooms, bombs
+    //TODO: Display health, enemy damage, enemy collision, rooms, bombs
     
     public static ArrayList<BasicEnemy> basicEnemies = new ArrayList<BasicEnemy>();
     public static Player player = new Player();
