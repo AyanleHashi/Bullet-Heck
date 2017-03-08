@@ -4,10 +4,10 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class Game {
-    //TODO: Display health, enemy damage, enemy collision, rooms, bombs
+    //TODO: rooms, enemy collision, bombs
     
-    public static ArrayList<BasicEnemy> basicEnemies = new ArrayList<BasicEnemy>();
     public static Player player = new Player();
+    public static ArrayList<BasicEnemy> basicEnemies = new ArrayList<BasicEnemy>();
     public static Rooms rooms = new Rooms(player);
     public static int[] room = {0,0};
    
@@ -25,15 +25,16 @@ public class Game {
     }
     
     public static void createEnemies() {
-        for (int i=0;i<2;i++) {
+        for (int i=0;i<5;i++) {
             basicEnemies.add(new BasicEnemy(player));
         }
     }
     
     public static void updateEnemies() {
-        for (BasicEnemy basicEnemy: basicEnemies) {
-            basicEnemy.update();
-            checkDamage(player,basicEnemy);
+        for (int i=0;i<basicEnemies.size();i++) {
+            basicEnemies.get(i).update();
+            checkDamage(player,basicEnemies.get(i));
+            if (basicEnemies.get(i).health == 0) basicEnemies.remove(i);
         }
     }
     
@@ -41,6 +42,7 @@ public class Game {
         initialize();
         
         createEnemies();
+        
         
         while (true) {
            StdDraw.clear(new Color(100,70,70));
@@ -52,6 +54,7 @@ public class Game {
            if (player.health == 0.0) {
                System.out.println("Game over!");
                System.exit(0);
+               break;
            }
            
            StdDraw.show();
