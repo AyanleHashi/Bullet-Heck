@@ -8,7 +8,7 @@ class BasicEnemy {
     
     public double xPos;
     public double yPos;
-    public double health = 2;
+    public double health = random.nextInt(3)+1;
     public double vel;
     public Player p;
     public Font font;
@@ -18,7 +18,7 @@ class BasicEnemy {
         yPos = random.nextInt(200)-100;
         p = player;
         StdDraw.setFont(new Font("Arial",Font.BOLD,25));
-        vel = ThreadLocalRandom.current().nextDouble(0,0.005);
+        vel = ThreadLocalRandom.current().nextDouble(0.001,0.005);
     }
     
     public void takeDamage() {
