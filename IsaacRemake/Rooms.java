@@ -4,22 +4,38 @@ import java.awt.Font;
 
 class Rooms {
     public Player p;
-    public int row = 0;
-    public int column = 0;
+    public int row;
+    public int column;
     public int roomID;
-    public int[][] map = {{1,0,0},
-                          {0,0,0},
-                          {0,0,0}};
+    public int[][] map = new int[3][3];
     
-    public Rooms(Player player) {
+    public Rooms(Player player, int r, int c) {
         p = player;
+        row = r;
+        column = c;
+        createMap();
     }
     
-    public void roomTransition() {
-        if (p.xPos >= 90 && (-5 < p.yPos && p.yPos < 5)) {
+    public void createMap() {
+        Random random = new Random();
+        for (int y=0;y<map.length;y++) {
+            for (int x=0;x<map[y].length;x++) {
+                map[y][x] = random.nextInt(3);
+            }
+        }
+        System.out.println(Arrays.toString(map));
+        /*HERE*/
+    }
+    
+    public void roomTransition(int r, int c) {
+        roomID = map[r][c];
+        if (p.xPos >= 85 && (-5 < p.yPos && p.yPos < 5) && roomID == 0) {
             column += 1;
             p.xPos = -84;
-            System.out.println(row + " " + column);
+        }
+        else  if (p.xPos <= -85 && (-5 < p.yPos && p.yPos < 5) && roomID == 1) {
+            column -= 1;
+            p.xPos = 84;
         }
     }
     
@@ -31,7 +47,7 @@ class Rooms {
         StdDraw.filledRectangle(-95,0,5,100);
         
         drawDoors();
-        roomTransition();
+        roomTransition(row,column);
     }
     
     public void drawDoors() {
@@ -39,16 +55,16 @@ class Rooms {
         StdDraw.setPenColor(100,70,70);
         
         if (roomID == 0) {
-            StdDraw.filledRectangle(0,-90,10,3);
+            StdDraw.filledRectangle(90,0,5,10);
         }
         if (roomID == 1) {
-            StdDraw.filledRectangle(0,90,10,3);
+            StdDraw.filledRectangle(-90,0,5,10);
         }
     }
     
-    public void update(int r, int c) {
-        row = r; column = c;
+    public void update() {
+        roomID = map[row][column];
         drawRoom(row,column);
-        roomTransition();
+        roomTransition(row,column);
     }
 }
