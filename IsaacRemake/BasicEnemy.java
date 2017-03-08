@@ -1,28 +1,38 @@
 import java.util.*;
 import java.awt.event.KeyEvent;
 import java.awt.Font;
+import java.util.concurrent.ThreadLocalRandom;
 
 class BasicEnemy {
     public static Random random = new Random();
     
     public double xPos;
     public double yPos;
+    public double health = 2;
     public double vel;
     public Player p;
     public Font font;
-    public double[] possibleVels = {0.001,0.002};
     
     public BasicEnemy(Player player) {
         xPos = random.nextInt(200)-100;
         yPos = random.nextInt(200)-100;
         p = player;
         StdDraw.setFont(new Font("Arial",Font.BOLD,25));
-        vel = possibleVels[random.nextInt(possibleVels.length)];
+        vel = ThreadLocalRandom.current().nextDouble(0,0.005);
+    }
+    
+    public void takeDamage() {
+        for (int i=0;i<p.projectiles.size();i++) {
+            if ((xPos-5 < p.projectiles.get(i).get(0) && p.projectiles.get(i).get(0) < xPos+5) && 
+                (yPos-5 < p.projectiles.get(i).get(1) && p.projectiles.get(i).get(1) < yPos+5)) {
+                    p.projectiles.remove(i);
+                    health -= 1;
+            }
+        }
     }
     
     public double getAngle(double x1,double x2,double y1,double y2) {
         double angle = (double) Math.toDegrees(Math.atan2(y2 - y1, x2 - x1));
-        
         return angle;
     }
     
@@ -51,5 +61,6 @@ class BasicEnemy {
     public void update() {
         draw();
         locatePlayer();
+        takeDamage();
     }
 }
