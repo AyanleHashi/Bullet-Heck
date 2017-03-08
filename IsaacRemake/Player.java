@@ -7,10 +7,10 @@ class Player {
     public static double xPos = 0;
     public static double yPos = 0;
     public static double health = 3;
-    public static final double playerVelocity = 0.25;
+    public static final double playerVelocity = 0.15;
     public static final double projectileVel = 3;
     public static ArrayList<List<Double>> projectiles = new ArrayList<List<Double>>();
-    public static final int initialDelay = 100;
+    public static final int initialDelay = 150;
     public static int delay = initialDelay;
     
     public static Player p = new Player();
