@@ -4,12 +4,11 @@ import java.awt.Font;
 import java.awt.Color;
 
 public class Game {
-    //TODO: rooms, enemy collision, bombs
+    //TODO: rooms, bombs
     
     public static Player player = new Player();
     public static ArrayList<BasicEnemy> basicEnemies = new ArrayList<BasicEnemy>();
-    public static Rooms rooms = new Rooms(player);
-    public static int[] room = {0,0};
+    public static Rooms rooms = new Rooms(player,0,0);
    
     public static void initialize() {
         StdDraw.enableDoubleBuffering();
@@ -24,8 +23,8 @@ public class Game {
         }
     }
     
-    public static void createEnemies() {
-        for (int i=0;i<5;i++) {
+    public static void createEnemies(int count) {
+        for (int i=0;i<count;i++) {
             basicEnemies.add(new BasicEnemy(player));
         }
     }
@@ -41,14 +40,14 @@ public class Game {
     public static void main(String[] args) {
         initialize();
         
-        createEnemies();
+        //createEnemies(3);
         
         
         while (true) {
            StdDraw.clear(new Color(100,70,70));
            
            updateEnemies();
-           rooms.drawRoom(room[0],room[1]);
+           rooms.update();
            
            player.update();
            if (player.health == 0.0) {
