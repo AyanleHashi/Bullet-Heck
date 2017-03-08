@@ -7,13 +7,14 @@ class Player {
     public static double xPos = 0;
     public static double yPos = 0;
     public static double health = 3;
-    public static final double playerVelocity = 0.15;
+    public static final double playerVelocity = 0.25;
     public static final double projectileVel = 3;
     public static ArrayList<List<Double>> projectiles = new ArrayList<List<Double>>();
-    public static final int initialDelay = 200;
+    public static final int initialDelay = 100;
     public static int delay = initialDelay;
     
     public static Player p = new Player();
+    public static double wallSize = 85;
     
     public static int iFrames = 0;
     
@@ -62,10 +63,10 @@ class Player {
             
             StdDraw.filledCircle(projectiles.get(i).get(0),projectiles.get(i).get(1),2.5);
             
-            if (projectiles.get(i).get(0) >= 78) projectiles.remove(i);
-            else if (projectiles.get(i).get(0) <= -78) projectiles.remove(i);
-            else if (projectiles.get(i).get(1) >= 78) projectiles.remove(i);
-            else if (projectiles.get(i).get(1) <= -78) projectiles.remove(i);
+            if (projectiles.get(i).get(0) >= wallSize) projectiles.remove(i);
+            else if (projectiles.get(i).get(0) <= -wallSize) projectiles.remove(i);
+            else if (projectiles.get(i).get(1) >= wallSize) projectiles.remove(i);
+            else if (projectiles.get(i).get(1) <= -wallSize) projectiles.remove(i);
         }
     }
     
@@ -75,10 +76,10 @@ class Player {
         if (StdDraw.isKeyPressed(KeyEvent.VK_W)) yPos += playerVelocity;
         if (StdDraw.isKeyPressed(KeyEvent.VK_S)) yPos -= playerVelocity;
         
-        if (xPos >= 75) xPos = 75;
-        if (xPos <= -75) xPos = -75;
-        if (yPos >= 75) yPos = 75;
-        if (yPos <= -75) yPos = -75;
+        if (xPos >= wallSize) xPos = wallSize;
+        if (xPos <= -wallSize) xPos = -wallSize;
+        if (yPos >= wallSize) yPos = wallSize;
+        if (yPos <= -wallSize) yPos = -wallSize;
     }
     
     public static void flicker() {
@@ -91,9 +92,15 @@ class Player {
     public static void takeDamage(boolean taken) {
         if (taken && iFrames < 0) {
             iFrames = 500;
-            health -= 0.5;
-            System.out.println(health);
+            health -= 1;
         } 
+    }
+    
+    public static void displayHealth() {
+        StdDraw.setPenColor(255,0,0);
+        for (double i=0;i<health;i++) {
+            StdDraw.filledCircle(i*9-95,95,4);
+        }
     }
     
     public static void update() {
@@ -103,6 +110,7 @@ class Player {
         StdDraw.setPenColor(255,125,125);
         StdDraw.filledCircle(xPos,yPos,5);
         flicker();
+        displayHealth();
         iFrames--;
     }
 }
