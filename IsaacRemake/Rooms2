@@ -1,0 +1,34 @@
+public class Rooms2 {
+    public String[][] map = {{"0100","0100","0010"},
+                             {"0100","0000","0010"},
+                             {"1000","0001","0001"}};
+    public int[] roomCoords = new int[2];
+    public Player p;
+    
+    public Rooms2(Player player,int initialX,int initialY) {
+        roomCoords[0] = initialX;
+        roomCoords[1] = initialY;
+        p = player;
+    }
+    
+    public void drawRoom(String room) {
+        /*Room Reference:
+        0 (up): 0,90,10,5
+        1 (right): 90,0,5,10
+        2 (down): 0,-90,10,5
+        3 (left): -90,0,5,10
+        */
+        if (room.charAt(0) == '1') StdDraw.filledRectangle(0,90,10,5);
+        if (room.charAt(1) == '1') StdDraw.filledRectangle(90,0,5,10);
+        if (room.charAt(2) == '1') StdDraw.filledRectangle(0,-90,10,5);
+        if (room.charAt(3) == '1') StdDraw.filledRectangle(-90,0,5,10);
+    }
+    
+    public int checkDoor(int d) {
+        if (map[]) 
+    }
+    
+    public void transition() {
+        if (p.xPos > 85 && (-5 < p.yPos && p.yPos < 5) && checkDoor(2))
+    }
+}
