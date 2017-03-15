@@ -1,6 +1,6 @@
 import java.util.*;
 import java.awt.*;
-
+//Figure out how the heck to fix transition, most likely moves the player several rooms too far
 public class Room {
     public boolean[] doors = new boolean[4];
     public Player player;
