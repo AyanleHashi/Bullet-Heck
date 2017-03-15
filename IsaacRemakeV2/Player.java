@@ -7,14 +7,15 @@ class Player {
     public static double xPos = 0;
     public static double yPos = 0;
     public static double health = 3;
+
     public static final double playerVelocity = 0.20;
     public static final double projectileVel = 3;
     public static ArrayList<List<Double>> projectiles = new ArrayList<List<Double>>();
+
     public static final int initialDelay = 150;
     public static int delay = initialDelay;
-    
-    public static Player p = new Player();
-    public static double wallSize = 85;
+
+    public static double wallSize = 75;
     
     public static int iFrames = 0;
 
@@ -66,10 +67,10 @@ class Player {
             
             StdDraw.filledCircle(projectiles.get(i).get(0),projectiles.get(i).get(1),2.5);
             
-            if (projectiles.get(i).get(0) >= wallSize) projectiles.remove(i);
-            else if (projectiles.get(i).get(0) <= -wallSize) projectiles.remove(i);
-            else if (projectiles.get(i).get(1) >= wallSize) projectiles.remove(i);
-            else if (projectiles.get(i).get(1) <= -wallSize) projectiles.remove(i);
+            if (projectiles.get(i).get(0) >= wallSize+4) projectiles.remove(i);
+            else if (projectiles.get(i).get(0) <= -wallSize-4) projectiles.remove(i);
+            else if (projectiles.get(i).get(1) >= wallSize+4) projectiles.remove(i);
+            else if (projectiles.get(i).get(1) <= -wallSize-4) projectiles.remove(i);
         }
     }
     
