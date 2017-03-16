@@ -2,13 +2,14 @@ import java.util.*;
 
 class Room {
     public boolean[] doors = new boolean[4];
+    public int roomType = 0;
     public Player player;
     public ArrayList<BasicEnemy> basicEnemies = new ArrayList<BasicEnemy>();
     public boolean playerCanLeaveRoom = true;
 
-    public Room(Player p) {
+    public Room(Player p, int enemyCount) {
         player = p;
-        for (int i=0;i<5;i++) {
+        for (int i=0;i<enemyCount;i++) {
             basicEnemies.add(new BasicEnemy(player));
         }
     }
@@ -19,6 +20,8 @@ class Room {
         StdDraw.filledRectangle(0, -90, 100, 10);
         StdDraw.filledRectangle(90, 0, 10, 100);
         StdDraw.filledRectangle(-90, 0, 10, 100);
+        
+        if (roomType == 1) StdDraw.filledRectangle(0,0,10,10);
     }
 
     public void drawDoors() {
@@ -59,11 +62,13 @@ class Room {
 
     public void updateEnemies() {
         checkEnemies();
-        for (int i=basicEnemies.size()-1;i>=0;i--) {
-            basicEnemies.get(i).update();
-            checkDamage(basicEnemies.get(i));
-
-            if (basicEnemies.get(i).health == 0) basicEnemies.remove(i);
+        if (roomType == 0) {
+            for (int i=basicEnemies.size()-1;i>=0;i--) {
+                basicEnemies.get(i).update();
+                checkDamage(basicEnemies.get(i));
+                
+                if (basicEnemies.get(i).health == 0) basicEnemies.remove(i);
+            }
         }
     }
 
