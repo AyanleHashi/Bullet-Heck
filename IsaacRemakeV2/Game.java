@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -57,8 +58,17 @@ public class Game {
             for (int x=0;x<floorLayout[y].length;x++) {
                 try {
                     if (floorLayout[y+1][x] == 1 && floorLayout[y][x] == 1) roomLayout[y][x].doors[2] = true;
+                } catch (ArrayIndexOutOfBoundsException e) {}
+
+                try {
                     if (floorLayout[y][x+1] == 1 && floorLayout[y][x] == 1) roomLayout[y][x].doors[1] = true;
+                } catch (ArrayIndexOutOfBoundsException e) {}
+
+                try {
                     if (floorLayout[y-1][x] == 1 && floorLayout[y][x] == 1) roomLayout[y][x].doors[0] = true;
+                } catch (ArrayIndexOutOfBoundsException e) {}
+
+                try {
                     if (floorLayout[y][x-1] == 1 && floorLayout[y][x] == 1) roomLayout[y][x].doors[3] = true;
                 } catch (ArrayIndexOutOfBoundsException e) {}
             }
@@ -71,21 +81,11 @@ public class Game {
                 if (floorLayout[y][x] == 1) {
                     StdDraw.setPenColor(100,100,100);
                     StdDraw.filledRectangle(x*10-90,-y*10+90,4.9,4.9);
-
-                    if (x == player.roomX && y == player.roomY) {
-                        StdDraw.setPenColor(255,255,255);
-                        StdDraw.filledRectangle(x*10-90,-y*10+90,4.9,4.9);
-                    }
-
-                    //if (1==2);
-
-                    else {
-                        StdDraw.setPenColor(200, 200, 200);
-                        if (roomLayout[y][x].doors[0]) StdDraw.filledRectangle(x * 10 - 90, -y * 10 + 95, 1, 1);
-                        if (roomLayout[y][x].doors[1]) StdDraw.filledRectangle(x * 10 - 85, -y * 10 + 90, 1, 1);
-                        if (roomLayout[y][x].doors[2]) StdDraw.filledRectangle(x * 10 - 90, -y * 10 + 85, 1, 1);
-                        if (roomLayout[y][x].doors[3]) StdDraw.filledRectangle(x * 10 - 95, -y * 10 + 90, 1, 1);
-                    }
+                    StdDraw.setPenColor(200, 200, 200);
+                    if (roomLayout[y][x].doors[0]) StdDraw.filledRectangle(x * 10 - 90, -y * 10 + 95, 1, 1);
+                    if (roomLayout[y][x].doors[1]) StdDraw.filledRectangle(x * 10 - 85, -y * 10 + 90, 1, 1);
+                    if (roomLayout[y][x].doors[2]) StdDraw.filledRectangle(x * 10 - 90, -y * 10 + 85, 1, 1);
+                    if (roomLayout[y][x].doors[3]) StdDraw.filledRectangle(x * 10 - 95, -y * 10 + 90, 1, 1);
                 }
             }
         }
@@ -100,7 +100,7 @@ public class Game {
     public static void main(String[] args) {
         initializeScreen();
         initializeRooms();
-        generateFloor(15);
+        generateFloor(10);
         generateDoors();
         
         while (true) {
@@ -111,8 +111,6 @@ public class Game {
 
             player.update();
             StdDraw.show();
-
-            System.out.println(player.roomX+ ", " + player.roomY);
         }
     }
 }
