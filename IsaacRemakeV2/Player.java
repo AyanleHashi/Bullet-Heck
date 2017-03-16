@@ -6,7 +6,9 @@ class Player {
     
     public static double xPos = 0;
     public static double yPos = 0;
-    public static double health = 3;
+    public static int health = 3;
+    public static int coins = 0;
+    public static double attack = 1;
 
     public static final double playerVelocity = 0.20;
     public static final double projectileVel = 3;
@@ -21,6 +23,14 @@ class Player {
 
     public static int roomX = 4;
     public static int roomY = 4;
+    
+    public static ArrayList<Item> items = new ArrayList<Item>();
+    
+    public Font font;
+    public Player() {
+        font = new Font("Arial", Font.BOLD, 25);
+        StdDraw.setFont(font);
+    }
     
     public static void createProjectiles() {
         ArrayList<Double> inner = new ArrayList<Double>();
@@ -107,6 +117,9 @@ class Player {
         for (double i=0;i<health;i++) {
             StdDraw.filledCircle(i*9-95,95,4);
         }
+        
+        StdDraw.setPenColor(255,215,0);
+        StdDraw.text(-95,70,Integer.toString(coins));
     }
     
     public static void update() {
