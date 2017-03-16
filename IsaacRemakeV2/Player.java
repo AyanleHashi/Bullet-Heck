@@ -8,7 +8,7 @@ class Player {
     public static double yPos = 0;
     public static double health = 3;
 
-    public static final double playerVelocity = 0.20;
+    public static final double playerVelocity = 0.50;
     public static final double projectileVel = 3;
     public static ArrayList<List<Double>> projectiles = new ArrayList<List<Double>>();
 
