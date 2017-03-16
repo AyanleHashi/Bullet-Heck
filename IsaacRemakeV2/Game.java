@@ -28,9 +28,10 @@ public class Game {
     public static void initializeRooms(int x, int y) {
         floorLayout = new int[y][x];
         roomLayout = new Room[y][x];
+        Random random = new Random();
         for (int row=0;row<roomLayout.length;row++) {
             for (int col=0;col<roomLayout[row].length;col++) {
-                roomLayout[row][col] = new Room(player);
+                roomLayout[row][col] = new Room(player,random.nextInt(3));
             }
         }
     }
@@ -79,6 +80,26 @@ public class Game {
         }
     }
     
+    public static int doorCount(Room room) {
+        int count = 0;
+        if (room.doors[0]) count++;
+        if (room.doors[1]) count++;
+        if (room.doors[2]) count++;
+        if (room.doors[3]) count++;
+        return count;
+    }
+    
+    public static void generateItemRoom() {
+        for (int y=0;y<roomLayout.length;y++) {
+            for (int x=0;x<roomLayout[y].length;x++) {
+                if (doorCount(roomLayout[y][x]) == 1) {
+                    roomLayout[y][x].roomType = 1;
+                    return;
+                }
+            }
+        }
+    }
+    
     public static void drawMap() {
         for (int y=0;y<floorLayout.length;y++) {
             for (int x=0;x<floorLayout[y].length;x++) {
@@ -88,6 +109,12 @@ public class Game {
                         StdDraw.setPenColor(255,255,255);
                         StdDraw.filledRectangle(x*10-90,-y*10+90,4.9,4.9);
                     }
+                    
+                    else if (roomLayout[y][x].roomType == 1) {
+                        StdDraw.setPenColor(255,215,0);
+                        StdDraw.filledRectangle(x*10-90,-y*10+90,4.9,4.9);
+                    }
+                    
                     else StdDraw.filledRectangle(x*10-90,-y*10+90,4.9,4.9);
                     StdDraw.setPenColor(200, 200, 200);
                     if (roomLayout[y][x].doors[0]) StdDraw.filledRectangle(x * 10 - 90, -y * 10 + 95, 1, 1);
@@ -102,7 +129,8 @@ public class Game {
     public static void main(String[] args) {
         initializeScreen();
 
-        generateFloor(15,10,10);
+        generateFloor(10,8,8);
+        generateItemRoom();
         
         while (true) {
             StdDraw.clear(new Color(100,60,60));
