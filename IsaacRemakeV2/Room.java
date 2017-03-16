@@ -1,6 +1,6 @@
 import java.util.*;
 import java.awt.*;
-//Figure out how the heck to fix transition, most likely moves the player several rooms too far
+
 public class Room {
     public boolean[] doors = new boolean[4];
     public Player player;
@@ -26,21 +26,21 @@ public class Room {
     }
 
     public void transition() {
-        if (player.xPos >= 74 && (-5 < player.yPos && player.yPos < 5) && doors[1]) {
-            player.xPos -= 149;
-            player.roomX += 1;
-        }
-        if (player.xPos <= -74 && (-5 < player.yPos && player.yPos < 5) && doors[3]) {
-            player.xPos += 149;
-            player.roomX -= 1;
-        }
-        if (player.yPos >= 74 && (-5 < player.xPos && player.xPos < 5) && doors[0]) {
-            player.yPos -= 149;
+        if (player.xPos > 74 && (-5 < player.yPos && player.yPos < 5) && doors[1]) {
+            player.xPos -= 145;
             player.roomY += 1;
         }
-        if (player.yPos <= -74 && (-5 < player.xPos && player.xPos < 5) && doors[2]) {
-            player.yPos += 149;
+        if (player.xPos < -74 && (-5 < player.yPos && player.yPos < 5) && doors[3]) {
+            player.xPos += 145;
+            player.roomY -= 1;
+        }
+        if (player.yPos > 74 && (-5 < player.xPos && player.xPos < 5) && doors[0]) {
+            player.yPos -= 145;
             player.roomX -= 1;
+        }
+        if (player.yPos < -74 && (-5 < player.xPos && player.xPos < 5) && doors[2]) {
+            player.yPos += 145;
+            player.roomX += 1;
         }
     }
 
@@ -48,6 +48,5 @@ public class Room {
         drawRoom();
         drawDoors();
         transition();
-        System.out.println(doors[0] + " " + doors[1] + " " + doors[2] + " " + doors[3]);
     }
 }
