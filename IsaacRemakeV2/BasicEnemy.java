@@ -23,6 +23,7 @@ class BasicEnemy {
                 (yPos-5 < p.projectiles.get(i).get(1) && p.projectiles.get(i).get(1) < yPos+5)) {
                     p.projectiles.remove(i);
                     health -= 1;
+                    if (health == 0) p.coins++;
             }
         }
     }
