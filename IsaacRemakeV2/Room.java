@@ -1,12 +1,16 @@
 import java.util.*;
-import java.awt.*;
 
-public class Room {
+class Room {
     public boolean[] doors = new boolean[4];
     public Player player;
+    public ArrayList<BasicEnemy> basicEnemies = new ArrayList<BasicEnemy>();
+    public boolean playerCanLeaveRoom = true;
 
     public Room(Player p) {
         player = p;
+        for (int i=0;i<5;i++) {
+            basicEnemies.add(new BasicEnemy(player));
+        }
     }
 
     public void drawRoom() {
@@ -26,21 +30,46 @@ public class Room {
     }
 
     public void transition() {
-        if (player.xPos > 74 && (-5 < player.yPos && player.yPos < 5) && doors[1]) {
+        if (player.xPos > 74 && (-5 < player.yPos && player.yPos < 5) && doors[1] && playerCanLeaveRoom) {
             player.xPos -= 145;
             player.roomY += 1;
+            player.projectiles = new ArrayList<List<Double>>();
         }
-        if (player.xPos < -74 && (-5 < player.yPos && player.yPos < 5) && doors[3]) {
+        if (player.xPos < -74 && (-5 < player.yPos && player.yPos < 5) && doors[3] && playerCanLeaveRoom) {
             player.xPos += 145;
             player.roomY -= 1;
+            player.projectiles = new ArrayList<List<Double>>();
         }
-        if (player.yPos > 74 && (-5 < player.xPos && player.xPos < 5) && doors[0]) {
+        if (player.yPos > 74 && (-5 < player.xPos && player.xPos < 5) && doors[0] && playerCanLeaveRoom) {
             player.yPos -= 145;
             player.roomX -= 1;
+            player.projectiles = new ArrayList<List<Double>>();
         }
-        if (player.yPos < -74 && (-5 < player.xPos && player.xPos < 5) && doors[2]) {
+        if (player.yPos < -74 && (-5 < player.xPos && player.xPos < 5) && doors[2] && playerCanLeaveRoom) {
             player.yPos += 145;
             player.roomX += 1;
+            player.projectiles = new ArrayList<List<Double>>();
+        }
+    }
+
+    public void checkEnemies() {
+        if (basicEnemies.size() != 0) playerCanLeaveRoom = false;
+        else playerCanLeaveRoom = true;
+    }
+
+    public void updateEnemies() {
+        checkEnemies();
+        for (int i=basicEnemies.size()-1;i>=0;i--) {
+            basicEnemies.get(i).update();
+            checkDamage(basicEnemies.get(i));
+
+            if (basicEnemies.get(i).health == 0) basicEnemies.remove(i);
+        }
+    }
+
+    public void checkDamage(BasicEnemy e) {
+        if ((e.xPos-5 < player.xPos && player.xPos < e.xPos+5) && (e.yPos-5 < player.yPos && player.yPos < e.yPos+5)) {
+            player.takeDamage(true);
         }
     }
 
@@ -48,5 +77,6 @@ public class Room {
         drawRoom();
         drawDoors();
         transition();
+        updateEnemies();
     }
 }
