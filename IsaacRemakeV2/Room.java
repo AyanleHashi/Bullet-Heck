@@ -9,7 +9,7 @@ class Room {
 
     public Room(Player p, int enemyCount) {
         player = p;
-        for (int i=0;i<enemyCount;i++) {
+        for (int i = 0; i < enemyCount; i++) {
             basicEnemies.add(new BasicEnemy(player));
         }
     }
@@ -20,8 +20,8 @@ class Room {
         StdDraw.filledRectangle(0, -90, 100, 10);
         StdDraw.filledRectangle(90, 0, 10, 100);
         StdDraw.filledRectangle(-90, 0, 10, 100);
-        
-        if (roomType == 1) StdDraw.filledRectangle(0,0,10,10);
+
+        if (roomType == 1) StdDraw.filledRectangle(0, 0, 10, 10);
     }
 
     public void drawDoors() {
@@ -30,6 +30,14 @@ class Room {
         if (doors[1]) StdDraw.filledRectangle(90, 0, 11, 11);
         if (doors[2]) StdDraw.filledRectangle(0, -90, 11, 11);
         if (doors[3]) StdDraw.filledRectangle(-90, 0, 11, 11);
+    }
+
+    public void drawItem(Item item) {
+        if (roomType == 1) item.draw(0,0);
+    }
+
+    public void addItem() {
+        if (roomType == 1 && !player.items.contains(new Pentagram())) player.items.add(new Pentagram());
     }
 
     public void transition() {
@@ -63,17 +71,17 @@ class Room {
     public void updateEnemies() {
         checkEnemies();
         if (roomType == 0) {
-            for (int i=basicEnemies.size()-1;i>=0;i--) {
+            for (int i = basicEnemies.size() - 1; i >= 0; i--) {
                 basicEnemies.get(i).update();
                 checkDamage(basicEnemies.get(i));
-                
-                if (basicEnemies.get(i).health == 0) basicEnemies.remove(i);
+
+                if (basicEnemies.get(i).health <= 0) basicEnemies.remove(i);
             }
         }
     }
 
     public void checkDamage(BasicEnemy e) {
-        if ((e.xPos-5 < player.xPos && player.xPos < e.xPos+5) && (e.yPos-5 < player.yPos && player.yPos < e.yPos+5)) {
+        if ((e.xPos - 5 < player.xPos && player.xPos < e.xPos + 5) && (e.yPos - 5 < player.yPos && player.yPos < e.yPos + 5)) {
             player.takeDamage(true);
         }
     }
@@ -83,5 +91,6 @@ class Room {
         drawDoors();
         transition();
         updateEnemies();
+        drawItem(new Pentagram());
     }
 }
