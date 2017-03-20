@@ -4,17 +4,17 @@ import java.awt.event.KeyEvent;
 
 public class Game {
     public static Player player = new Player();
-    
+
     public static int[][] floorLayout;
     public static Room[][] roomLayout;
-    
+
     public static void initializeScreen() {
         StdDraw.enableDoubleBuffering();
         StdDraw.setScale(-100,100);
         StdDraw.setPenRadius(0.05);
         StdDraw.setPenColor(100,100,100);
     }
-    
+
     public static int count(int n, int[][] a) {
         int count = 0;
         for (int row=0;row<a.length;row++) {
@@ -35,19 +35,19 @@ public class Game {
             }
         }
     }
-    
+
     public static void generateFloor(int roomCount, int x, int y) {
         initializeRooms(x,y);
         Random random = new Random();
         x = 4;
         y = 4;
         boolean a;
-        
+
         while (count(1,floorLayout) < roomCount) {
             try {
                 if (floorLayout[y][x] == 0) floorLayout[y][x] = 1;
                 a = random.nextBoolean();
-                
+
                 if (a) x += random.nextInt(3)-1;
                 else y += random.nextInt(3)-1;
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -57,7 +57,7 @@ public class Game {
         }
         generateDoors();
     }
-    
+
     public static void generateDoors() {
         for (int y=0;y<floorLayout.length;y++) {
             for (int x=0;x<floorLayout[y].length;x++) {
@@ -79,7 +79,7 @@ public class Game {
             }
         }
     }
-    
+
     public static int doorCount(Room room) {
         int count = 0;
         if (room.doors[0]) count++;
@@ -88,7 +88,7 @@ public class Game {
         if (room.doors[3]) count++;
         return count;
     }
-    
+
     public static void generateItemRoom() {
         for (int y=0;y<roomLayout.length;y++) {
             for (int x=0;x<roomLayout[y].length;x++) {
@@ -99,7 +99,7 @@ public class Game {
             }
         }
     }
-    
+
     public static void drawMap() {
         for (int y=0;y<floorLayout.length;y++) {
             for (int x=0;x<floorLayout[y].length;x++) {
@@ -109,12 +109,12 @@ public class Game {
                         StdDraw.setPenColor(255,255,255);
                         StdDraw.filledRectangle(x*10-90,-y*10+90,4.9,4.9);
                     }
-                    
+
                     else if (roomLayout[y][x].roomType == 1) {
                         StdDraw.setPenColor(255,215,0);
                         StdDraw.filledRectangle(x*10-90,-y*10+90,4.9,4.9);
                     }
-                    
+
                     else StdDraw.filledRectangle(x*10-90,-y*10+90,4.9,4.9);
                     StdDraw.setPenColor(200, 200, 200);
                     if (roomLayout[y][x].doors[0]) StdDraw.filledRectangle(x * 10 - 90, -y * 10 + 95, 1, 1);
@@ -125,13 +125,13 @@ public class Game {
             }
         }
     }
-    
+
     public static void main(String[] args) {
         initializeScreen();
 
-        generateFloor(10,8,8);
+        generateFloor(5,8,8);
         generateItemRoom();
-        
+
         while (true) {
             StdDraw.clear(new Color(100,60,60));
 
