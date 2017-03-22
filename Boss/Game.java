@@ -20,7 +20,6 @@ public class Game {
         initialize();
         Player player = new Player();
         
-        
         while (true) {
             StdDraw.clear(StdDraw.DARK_GRAY);
             
