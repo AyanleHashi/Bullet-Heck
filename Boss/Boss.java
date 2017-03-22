@@ -29,13 +29,7 @@ class Boss {
         if (x > 65 || x < -65) direction *= -1;
     }
     
-    public static void createAttack() {
-        List<Double> temp;
-        for (int angle=-2;angle<3;angle++) {
-            temp = new ArrayList<Double>();
-            temp.add(x);
-            temp.add(y);
-            temp.add();
-        }
+    public static void attack() {
+        
     }
 }
