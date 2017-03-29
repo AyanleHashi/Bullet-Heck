@@ -14,10 +14,10 @@ public class Player {
     public static final double projectileVel = 3;
     public static ArrayList<List<Double>> projectiles = new ArrayList<List<Double>>();
 
-    public static final int initialDelay = 150;
+    public static final int initialDelay = 100;
     public static int delay = initialDelay;
 
-    public static double wallSize = 75;
+    public static double wallSize = 90;
 
     public static int iFrames = 0;
 
@@ -112,12 +112,13 @@ public class Player {
 
     public static void displayHealth() {
         StdDraw.setPenColor(255,0,0);
-        for (double i=0;i<health;i++) {
+        /*for (double i=0;i<health;i++) {
             StdDraw.filledCircle(i*9-95,95,4);
-        }
+        }*/
+        StdDraw.filledRectangle(health/2-50,50,health/2.0,5);
 
         StdDraw.setPenColor(255,215,0);
-        StdDraw.text(-95,70,Integer.toString(coins));
+        //StdDraw.text(-95,70,Integer.toString(coins));
     }
 
     public static void update() {
@@ -127,7 +128,7 @@ public class Player {
         StdDraw.setPenColor(255,125,125);
         StdDraw.filledCircle(xPos,yPos,5);
         flicker();
-        //displayHealth();
+        displayHealth();
         iFrames--;
     }
 }
