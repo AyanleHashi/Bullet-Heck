@@ -19,14 +19,16 @@ public class Game {
     public static void main(String[] args) {
         initialize();
         Player player = new Player();
+        Boss b = new Boss(player);
         
         while (true) {
             StdDraw.clear(StdDraw.DARK_GRAY);
             
-            drawWalls();
-            Boss.draw();
+            b.update();
             player.update();
             
+            drawWalls();
+            b.displayHealth();
             StdDraw.show();
         }
     }
